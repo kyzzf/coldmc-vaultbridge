@@ -1,0 +1,24 @@
+name: ColdmcVaultBridge
+version: 1.0.0
+main: se.coldmc.vaultbridge.ColdmcVaultBridge
+api-version: '1.21'
+author: Flake
+description: Vault chat (CoreTools rank prefix), an economy front with town/nation bank accounts, the per-profile ColdMC era (%coldmc_era%, Nexo era packs) and the custom-items-stay-in-stations guard.
+depend: [Vault, PlaceholderAPI]
+softdepend: [CoreTools, MMOProfiles]
+loadbefore: [Towny, TownyChat, TAB]
+commands:
+  warp:
+    description: Warps (run by CoreTools; this plugin only completes the names for admins).
+    usage: /warp [name] [player]
+  cmchold:
+    description: Console only. Runs a reward command now if the player is in a profile, otherwise when they choose one.
+    usage: /cmchold <player> <command...>
+  coldmcera:
+    description: Shows or sets a player's ColdMC era (0 Pre-Dragon .. 3 Post-Hydra).
+    usage: /coldmcera <player> [set <0-3>]
+    permission: coldmc.era.admin
+permissions:
+  coldmc.era.admin:
+    description: Read and override player eras.
+    default: op

@@ -1,0 +1,64 @@
+# ColdmcVaultBridge - only the era tracker reads this file (Flake, 2026-10-23).
+# See knowledge/plugins/ColdmcVaultBridge/ and knowledge/runtime/scripts/coldmc_eras.py.
+eras:
+  # An Ender Dragon death raises every player within this many blocks to Post-Dragon.
+  dragon-radius: 200
+  # Equipping one of these catalysts (read through %javascript_catalyst_<ID>%) raises the
+  # profile to that era. Must match KEY_ERA in coldmc_eras.py.
+  catalysts:
+    ALTAR_ACCURSED: 1
+    ALTAR_SACRED: 1
+    PRISMATIC_GLASSES: 2
+    HEARTLESS: 3
+    RADIOACTIVE_PROTECTION: 3
+    HELLFIRE_CATALYST: 3
+  # Nexo multipack templates (plugins/Nexo/multipack.yml) a profile gets at each era.
+  # Cumulative: Post-Hydra also gets the Post-Dragon and Post-Empress packs.
+  pack-templates:
+    '1': [post_dragon]
+    '2': [post_empress]
+    '3': [post_hydra]
+
+# Mastery abilities (Flake, 2026-10-27). Chance in percent for the luck and treasure abilities:
+#   value = level >= unlock ? base + per * min(steps-cap, floor((level - unlock) / step-every)) : 0
+# level = the MMOCore level of `profession` on the player's ACTIVE profile; steps-cap none = unbounded.
+# Luck abilities (lucky-miner, lumberjack, bigger-scoop, bountiful-harvest, lucky-catch): over 100
+# gives floor(value/100) guaranteed extra copies plus one more with chance (value mod 100)%.
+# Geneticist: value = percent of a plant food's own saturation added on top when eaten.
+abilities:
+  lucky-miner:       {profession: mining,     unlock: 2,  base: 4,   per: 2,    step-every: 1, steps-cap: 50}
+  lumberjack:        {profession: foraging,   unlock: 2,  base: 4,   per: 2,    step-every: 1, steps-cap: 50}
+  bigger-scoop:      {profession: excavation, unlock: 5,  base: 3,   per: 3,    step-every: 5, steps-cap: none}
+  bountiful-harvest: {profession: farming,    unlock: 2,  base: 8,   per: 4,    step-every: 1, steps-cap: 24}
+  lucky-catch:       {profession: fishing,    unlock: 2,  base: 4,   per: 2,    step-every: 1, steps-cap: none}
+  metal-detector:    {profession: excavation, unlock: 2,  base: 0.5, per: 0.4,  step-every: 5, steps-cap: none}
+  lucky-spades:      {profession: excavation, unlock: 6,  base: 0.1, per: 0.05, step-every: 5, steps-cap: none}
+  treasure-hunter:   {profession: fishing,    unlock: 3,  base: 1,   per: 0.5,  step-every: 2, steps-cap: none}
+  epic-catch:        {profession: fishing,    unlock: 4,  base: 0.3, per: 0.25, step-every: 2, steps-cap: none}
+  geneticist:        {profession: farming,    unlock: 15, base: 1,   per: 2,    step-every: 5, steps-cap: none}
+  # CustomFishing loot groups the two bonus catches draw from (must be catchable in the same water).
+  treasure-hunter-group: silver_star
+  epic-catch-group: golden_star
+  # A Nexo block id with this word between underscores (amber_ore_deepslate) counts as an ore.
+  nexo-ore-word: ore
+  # Digging treasure pools. groups: any | dirts | sand | gravel | clay. Equal weights.
+  rare-pool:
+    - {item: BONE,        min: 1, max: 3, groups: [any]}
+    - {item: STICK,       min: 1, max: 2, groups: [any]}
+    - {item: IRON_INGOT,  min: 1, max: 1, groups: [dirts]}
+    - {item: GOLD_INGOT,  min: 1, max: 1, groups: [sand, gravel]}
+    - {item: GUNPOWDER,   min: 1, max: 2, groups: [gravel]}
+    - {item: COAL,        min: 1, max: 4, groups: [clay]}
+  epic-pool:
+    - {item: DIAMOND,         min: 1, max: 2, groups: [any]}
+    - {item: NAME_TAG,        min: 1, max: 1, groups: [any]}
+    - {item: ARROW,           min: 2, max: 3, groups: [any]}
+    - {item: BEETROOT_SEEDS,  min: 3, max: 4, groups: [dirts]}
+
+# The Common Crate key, a rare drop from any hostile monster a player kills (Flake, 2026-10-27).
+# Spawner mobs and kills nobody made never drop it. chance is in percent.
+common-key:
+  chance: 1.0
+  type: CRATE_KEY
+  id: KEY_COMMON
+  message: '&8[&dɢᴀɪᴀ&8] &7Something glints among the remains.'
